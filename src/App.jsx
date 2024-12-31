@@ -10,6 +10,8 @@ import Terms from './pages/Terms';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import JobDetailsPage from './pages/JobDetailsPage';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import InterviewTips from './pages/resources/InterviewTips';
 import ResumeGuide from './pages/resources/ResumeGuide';
 import CareerAdvice from './pages/resources/CareerAdvice';
@@ -35,6 +37,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/resources/interview-tips" element={<InterviewTips />} />
               <Route path="/resources/resume-guide" element={<ResumeGuide />} />
               <Route path="/resources/career-advice" element={<CareerAdvice />} />

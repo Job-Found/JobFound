@@ -154,6 +154,9 @@ const Navbar = () => {
               <NavLink to="/" isActive={location.pathname === '/'}>
                 Jobs
               </NavLink>
+              <NavLink to="/blog" isActive={location.pathname.startsWith('/blog')}>
+                Blog
+              </NavLink>
               <Menu>
                 <MenuButton
                   as={Text}
