@@ -154,6 +154,55 @@ const Navbar = () => {
               <NavLink to="/" isActive={location.pathname === '/'}>
                 Jobs
               </NavLink>
+              <Menu>
+                <MenuButton
+                  as={Text}
+                  cursor="pointer"
+                  position="relative"
+                  px={4}
+                  py={2}
+                  rounded="md"
+                  color={useColorModeValue('gray.700', 'gray.300')}
+                  fontWeight="500"
+                  _hover={{
+                    bg: useColorModeValue('blue.50', 'gray.700'),
+                  }}
+                >
+                  Resources
+                </MenuButton>
+                <MenuList
+                  bg={useColorModeValue('white', 'gray.800')}
+                  borderColor={useColorModeValue('gray.200', 'gray.700')}
+                >
+                  <MenuItem
+                    as={RouterLink}
+                    to="/resources/interview-tips"
+                    _hover={{ bg: useColorModeValue('blue.50', 'gray.700') }}
+                  >
+                    Interview Tips
+                  </MenuItem>
+                  <MenuItem
+                    as={RouterLink}
+                    to="/resources/resume-guide"
+                    _hover={{ bg: useColorModeValue('blue.50', 'gray.700') }}
+                  >
+                    Resume Guide
+                  </MenuItem>
+                  <MenuItem
+                    as={RouterLink}
+                    to="/resources/career-advice"
+                    _hover={{ bg: useColorModeValue('blue.50', 'gray.700') }}
+                  >
+                    Career Advice
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+              <NavLink to="/about" isActive={location.pathname === '/about'}>
+                About
+              </NavLink>
+              <NavLink to="/contact" isActive={location.pathname === '/contact'}>
+                Contact
+              </NavLink>
               {user?.email?.endsWith('@admin.com') && (
                 <NavLink
                   to="/admin/dashboard"
