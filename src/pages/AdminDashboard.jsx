@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
+  Heading,
   Button,
+  Stack,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
+  ModalFooter,
   ModalBody,
   ModalCloseButton,
   FormControl,
@@ -15,32 +18,26 @@ import {
   Input,
   Textarea,
   Select,
-  Stack,
   useToast,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  InputGroup,
-  InputRightAddon,
   Text,
   Flex,
-  Divider,
-  Heading,
   useColorModeValue,
   Icon,
   Badge,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Divider,
 } from '@chakra-ui/react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AddIcon } from '@chakra-ui/icons';
+import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { supabase } from '../lib/supabase';
 import JobCard from '../components/JobCard';
-import { FaPlus, FaBriefcase, FaBuilding } from 'react-icons/fa';
-
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+import { supabase } from '../lib/supabase';
+import ApplicationsManagement from '../components/ApplicationsManagement';
+import BlogPostsManagement from '../components/BlogPostsManagement';
 
 const AdminDashboard = () => {
   const [jobs, setJobs] = useState([]);
@@ -188,7 +185,7 @@ const AdminDashboard = () => {
 
   return (
     <Container maxW="container.xl" py={8}>
-      <MotionFlex
+      <Stack
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -212,42 +209,58 @@ const AdminDashboard = () => {
           alignItems="center"
           gap={2}
         >
-          <Icon as={FaBriefcase} />
+          <Icon as={AddIcon} />
           {jobs.length} Active Jobs
         </Badge>
-      </MotionFlex>
+      </Stack>
 
-      <AnimatePresence>
-        <Stack spacing={4}>
-          {jobs.map((job, index) => (
-            <MotionBox
-              key={job.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              bg={bgColor}
-              p={6}
-              borderRadius="lg"
-              boxShadow="sm"
-              border="1px solid"
-              borderColor={borderColor}
-              _hover={{
-                transform: 'translateY(-2px)',
-                boxShadow: 'md',
-                transition: 'all 0.2s ease-in-out'
-              }}
-            >
-              <JobCard
-                job={job}
-                isAdmin={true}
-                onEdit={handleEdit}
-                onDelete={onDeleteClick}
-              />
-            </MotionBox>
-          ))}
-        </Stack>
-      </AnimatePresence>
+      <Tabs>
+        <TabList>
+          <Tab>Jobs</Tab>
+          <Tab>Applications</Tab>
+          <Tab>Blog Posts</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            <Stack spacing={4}>
+              {jobs.map((job, index) => (
+                <motion.div
+                  key={job.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  bg={bgColor}
+                  p={6}
+                  borderRadius="lg"
+                  boxShadow="sm"
+                  border="1px solid"
+                  borderColor={borderColor}
+                  _hover={{
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'md',
+                    transition: 'all 0.2s ease-in-out'
+                  }}
+                >
+                  <JobCard
+                    job={job}
+                    isAdmin={true}
+                    onEdit={handleEdit}
+                    onDelete={onDeleteClick}
+                  />
+                </motion.div>
+              ))}
+            </Stack>
+          </TabPanel>
+          <TabPanel>
+            <ApplicationsManagement />
+          </TabPanel>
+          <TabPanel>
+            <BlogPostsManagement />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
 
       <Modal 
         isOpen={isOpen} 
@@ -269,7 +282,7 @@ const AdminDashboard = () => {
             borderTopRadius="xl"
           >
             <Flex align="center" gap={2}>
-              <Icon as={FaBuilding} />
+              <Icon as={AddIcon} />
               Edit Job Post
             </Flex>
           </ModalHeader>
@@ -280,7 +293,7 @@ const AdminDashboard = () => {
                 {/* Basic Information */}
                 <Stack spacing={4}>
                   <Flex align="center" gap={2}>
-                    <Icon as={FaBriefcase} color="blue.500" />
+                    <Icon as={AddIcon} color="blue.500" />
                     <Text fontSize="lg" fontWeight="bold">Basic Information</Text>
                   </Flex>
                   <FormControl isRequired>
@@ -367,43 +380,37 @@ const AdminDashboard = () => {
                   <FormControl>
                     <FormLabel>Salary Range (LPA)</FormLabel>
                     <Flex gap={4}>
-                      <InputGroup>
-                        <Input
-                          {...register('salary_min', {
-                            pattern: {
-                              value: /^\d*\.?\d*$/,
-                              message: 'Please enter a valid number'
-                            }
-                          })}
-                          placeholder="Min"
-                          type="number"
-                          step="0.1"
-                          _focus={{
-                            borderColor: 'blue.400',
-                            boxShadow: '0 0 0 1px blue.400'
-                          }}
-                        />
-                        <InputRightAddon children="LPA" />
-                      </InputGroup>
+                      <Input
+                        {...register('salary_min', {
+                          pattern: {
+                            value: /^\d*\.?\d*$/,
+                            message: 'Please enter a valid number'
+                          }
+                        })}
+                        placeholder="Min"
+                        type="number"
+                        step="0.1"
+                        _focus={{
+                          borderColor: 'blue.400',
+                          boxShadow: '0 0 0 1px blue.400'
+                        }}
+                      />
                       <Text alignSelf="center">to</Text>
-                      <InputGroup>
-                        <Input
-                          {...register('salary_max', {
-                            pattern: {
-                              value: /^\d*\.?\d*$/,
-                              message: 'Please enter a valid number'
-                            }
-                          })}
-                          placeholder="Max"
-                          type="number"
-                          step="0.1"
-                          _focus={{
-                            borderColor: 'blue.400',
-                            boxShadow: '0 0 0 1px blue.400'
-                          }}
-                        />
-                        <InputRightAddon children="LPA" />
-                      </InputGroup>
+                      <Input
+                        {...register('salary_max', {
+                          pattern: {
+                            value: /^\d*\.?\d*$/,
+                            message: 'Please enter a valid number'
+                          }
+                        })}
+                        placeholder="Max"
+                        type="number"
+                        step="0.1"
+                        _focus={{
+                          borderColor: 'blue.400',
+                          boxShadow: '0 0 0 1px blue.400'
+                        }}
+                      />
                     </Flex>
                     {errors?.salary_min && (
                       <Text color="red.500" fontSize="sm" mt={1}>
@@ -466,51 +473,53 @@ const AdminDashboard = () => {
               </Stack>
             </form>
           </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
 
-      <AlertDialog
-        isOpen={isDeleteAlertOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setIsDeleteAlertOpen(false)}
+      <Modal 
+        isOpen={isDeleteAlertOpen} 
+        onClose={() => setIsDeleteAlertOpen(false)} 
+        size="xs"
         motionPreset="slideInBottom"
       >
-        <AlertDialogOverlay>
-          <AlertDialogContent
-            as={motion.div}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-          >
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Job Post
-            </AlertDialogHeader>
+        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+        <ModalContent
+          as={motion.div}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ModalHeader fontSize="lg" fontWeight="bold">
+            Delete Job Post
+          </ModalHeader>
 
-            <AlertDialogBody>
-              Are you sure you want to delete this job post? This action cannot be undone.
-            </AlertDialogBody>
+          <ModalBody>
+            Are you sure you want to delete this job post? This action cannot be undone.
+          </ModalBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsDeleteAlertOpen(false)}>
-                Cancel
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={onDeleteConfirm}
-                ml={3}
-                _hover={{
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'md',
-                }}
-                transition="all 0.2s"
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+          <ModalFooter>
+            <Button ref={cancelRef} onClick={() => setIsDeleteAlertOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme="red"
+              onClick={onDeleteConfirm}
+              ml={3}
+              _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'md',
+              }}
+              transition="all 0.2s"
+            >
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 };

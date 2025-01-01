@@ -1,67 +1,125 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   SimpleGrid,
-  Heading,
-  Text,
   Input,
   InputGroup,
   InputLeftElement,
   Stack,
+  Heading,
+  Text,
+  Select,
+  Spinner,
+  Alert,
+  AlertIcon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import BlogCard from '../components/BlogCard';
-import { blogPosts } from '../data/blogPosts';
-import { useState } from 'react';
+import { fetchBlogPosts } from '../lib/supabase';
 
 const Blog = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const filteredPosts = blogPosts.filter(post =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const bgColor = useColorModeValue('gray.50', 'gray.900');
+  const textColor = useColorModeValue('gray.600', 'gray.400');
+
+  useEffect(() => {
+    loadBlogPosts();
+  }, []);
+
+  const loadBlogPosts = async () => {
+    try {
+      const data = await fetchBlogPosts();
+      setPosts(data || []);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading blog posts:', err);
+      setError('Failed to load blog posts. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || post.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = [...new Set(posts.map(post => post.category))];
 
   return (
-    <Box py={12} bg={useColorModeValue('gray.50', 'gray.900')}>
+    <Box py={12} bg={bgColor}>
       <Container maxW="container.xl">
         <Stack spacing={8}>
-          <Stack spacing={4} align="center" textAlign="center">
-            <Heading size="2xl">Career Blog</Heading>
-            <Text fontSize="xl" color={useColorModeValue('gray.600', 'gray.400')} maxW="2xl">
-              Expert insights, tips, and guidance to help you succeed in your career journey
+          <Stack spacing={4}>
+            <Heading size="2xl" textAlign="center">
+              Career Insights & Job Search Tips
+            </Heading>
+            <Text fontSize="lg" textAlign="center" color={textColor}>
+              Expert advice to help you navigate your career journey
             </Text>
           </Stack>
 
-          <InputGroup maxW="600px" mx="auto">
-            <InputLeftElement pointerEvents="none">
-              <SearchIcon color="gray.400" />
-            </InputLeftElement>
-            <Input
-              placeholder="Search articles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              bg={useColorModeValue('white', 'gray.800')}
-              border="1px"
-              borderColor={useColorModeValue('gray.200', 'gray.700')}
-              _hover={{
-                borderColor: useColorModeValue('gray.300', 'gray.600'),
-              }}
-              _focus={{
-                borderColor: 'blue.500',
-                boxShadow: 'outline',
-              }}
-            />
-          </InputGroup>
+          <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <SearchIcon color="gray.400" />
+              </InputLeftElement>
+              <Input
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                bg={useColorModeValue('white', 'gray.800')}
+              />
+            </InputGroup>
 
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-            {filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </SimpleGrid>
+            <Select
+              placeholder="All Categories"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              bg={useColorModeValue('white', 'gray.800')}
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Select>
+          </Stack>
+
+          {error && (
+            <Alert status="error">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
+
+          {loading ? (
+            <Box textAlign="center" py={8}>
+              <Spinner size="xl" />
+            </Box>
+          ) : (
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+              {filteredPosts.map(post => (
+                <BlogCard key={post.id} post={post} />
+              ))}
+            </SimpleGrid>
+          )}
+
+          {!loading && filteredPosts.length === 0 && (
+            <Box textAlign="center" py={8}>
+              <Text fontSize="lg" color={textColor}>
+                No articles found matching your criteria.
+              </Text>
+            </Box>
+          )}
         </Stack>
       </Container>
     </Box>
