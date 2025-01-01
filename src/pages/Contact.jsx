@@ -68,17 +68,13 @@ const Contact = () => {
             <ContactInfo
               icon={FaEnvelope}
               title="Email"
-              content="support@jobfound.com"
+              content="jobfound8244@gmail.com"
             />
-            <ContactInfo
-              icon={FaPhone}
-              title="Phone"
-              content="+1 (555) 123-4567"
-            />
+            
             <ContactInfo
               icon={FaMapMarkerAlt}
               title="Location"
-              content="New York, NY 10001"
+              content="India"
             />
           </SimpleGrid>
 

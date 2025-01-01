@@ -5,8 +5,6 @@ import {
   Heading,
   Text,
   Stack,
-  UnorderedList,
-  ListItem,
   useColorModeValue,
 } from '@chakra-ui/react';
 
@@ -22,7 +20,7 @@ const Privacy = () => {
           <Stack spacing={4}>
             <Heading size="2xl">Privacy Policy</Heading>
             <Text fontSize="lg" color={textColor}>
-              Last updated: December 31, 2023
+              Welcome to jobfound-d2z.pages.dev, your trusted platform for exploring job opportunities. We value your trust and are committed to ensuring the privacy and security of your information when you visit our website. This Privacy Policy outlines our practices regarding any information you may interact with on our site. We strive to create a safe and secure environment for our users, where you can explore job listings and career-related content with confidence.
             </Text>
           </Stack>
 
@@ -35,41 +33,38 @@ const Privacy = () => {
             borderColor={borderColor}
           >
             <Stack spacing={4}>
-              <Heading size="md">Information We Collect</Heading>
-              <UnorderedList spacing={2} pl={4} color={textColor}>
-                <ListItem>Personal information provided during account creation</ListItem>
-                <ListItem>Professional information in resumes and job applications</ListItem>
-                <ListItem>Usage data and interaction with our platform</ListItem>
-                <ListItem>Device and browser information</ListItem>
-              </UnorderedList>
-            </Stack>
-
-            <Stack spacing={4}>
-              <Heading size="md">How We Use Your Information</Heading>
-              <UnorderedList spacing={2} pl={4} color={textColor}>
-                <ListItem>To provide and improve our job search services</ListItem>
-                <ListItem>To match you with relevant job opportunities</ListItem>
-                <ListItem>To communicate with you about your account and updates</ListItem>
-                <ListItem>To ensure platform security and prevent fraud</ListItem>
-              </UnorderedList>
-            </Stack>
-
-            <Stack spacing={4}>
-              <Heading size="md">Information Security</Heading>
+              <Heading size="md">Our Commitment to Privacy</Heading>
               <Text color={textColor}>
-                We implement appropriate security measures to protect your personal information. 
-                This includes encryption, secure servers, and regular security assessments.
+                At jobfound-d2z.pages.dev, we believe in transparency and respect for our users' privacy. We aim to provide a seamless experience without compromising your personal information. We do not collect or store any personal data from our users. Our focus is on delivering valuable content and services without requiring you to provide personal details.
               </Text>
             </Stack>
 
             <Stack spacing={4}>
-              <Heading size="md">Your Rights</Heading>
-              <UnorderedList spacing={2} pl={4} color={textColor}>
-                <ListItem>Access your personal data</ListItem>
-                <ListItem>Request corrections to your data</ListItem>
-                <ListItem>Delete your account and associated data</ListItem>
-                <ListItem>Opt-out of marketing communications</ListItem>
-              </UnorderedList>
+              <Heading size="md">User Experience</Heading>
+              <Text color={textColor}>
+                We design our platform to be user-friendly and accessible, ensuring you can navigate through our content without any concerns about privacy. We provide a wide range of job listings, career advice, and other resources to help you on your career journey. Our goal is to make your experience on jobfound-d2z.pages.dev enjoyable and informative.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">Advertisements and Third-Party Content</Heading>
+              <Text color={textColor}>
+                jobfound-d2z.pages.dev may display advertisements from third-party providers. These ads are tailored to match the general content of our site and do not rely on personal information. We partner with reputable advertising networks that adhere to privacy standards. We encourage you to review the privacy policies of any third-party websites or services linked through our site, as we are not responsible for their practices.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">Changes to the Privacy Policy</Heading>
+              <Text color={textColor}>
+                As we continue to improve our services and comply with regulations, we may update this Privacy Policy from time to time. Any changes will be posted on this page, and we encourage you to review this policy periodically. Your continued use of our website following any changes indicates your acceptance of the updated terms.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">Contact Us</Heading>
+              <Text color={textColor}>
+                If you have any questions or concerns about this Privacy Policy, please do not hesitate to contact us. We are here to ensure that your experience on jobfound-d2z.pages.dev is as smooth and worry-free as possible. You can reach us at jobfound8244@gmail.com .
+              </Text>
             </Stack>
           </Stack>
         </Stack>

@@ -23,8 +23,9 @@ const Feature = ({ title, text, icon }) => {
       border="1px"
       borderColor={useColorModeValue('gray.200', 'gray.700')}
       _hover={{
-        transform: 'translateY(-5px)',
+        transform: 'scale(1.05) translateY(-5px)',
         shadow: 'xl',
+        borderColor: 'blue.400', // Adds the blue border
       }}
       transition="all 0.3s"
     >

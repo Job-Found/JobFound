@@ -22,8 +22,9 @@ const AdviceCard = ({ title, description, icon }) => {
       align="center"
       spacing={4}
       _hover={{
-        transform: 'translateY(-5px)',
+        transform: 'scale(1.05) translateY(-5px)',
         shadow: 'lg',
+        borderColor: 'blue.400', // Adds blue border on hover
       }}
       transition="all 0.3s"
     >

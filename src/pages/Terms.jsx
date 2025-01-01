@@ -5,8 +5,6 @@ import {
   Heading,
   Text,
   Stack,
-  UnorderedList,
-  ListItem,
   useColorModeValue,
 } from '@chakra-ui/react';
 
@@ -20,9 +18,9 @@ const Terms = () => {
       <Container maxW="container.lg">
         <Stack spacing={10}>
           <Stack spacing={4}>
-            <Heading size="2xl">Terms and Conditions</Heading>
+            <Heading size="2xl">Terms of Service</Heading>
             <Text fontSize="lg" color={textColor}>
-              Last updated: December 31, 2023
+              Welcome to jobfound-d2z.pages.dev. By using our website, you agree to these Terms of Service. If you do not agree, please do not use our site. These terms are simple and straightforward, reflecting our general approach to providing job-related information.
             </Text>
           </Stack>
 
@@ -35,49 +33,51 @@ const Terms = () => {
             borderColor={borderColor}
           >
             <Stack spacing={4}>
-              <Heading size="md">1. Account Terms</Heading>
+              <Heading size="md">Use of the Website</Heading>
               <Text color={textColor}>
-                By creating an account on Job Found, you agree to provide accurate and complete information.
-                You are responsible for maintaining the security of your account and password.
+                Our website provides job listings and related content. We do our best to ensure the accuracy of the information provided, but we do not guarantee that all information will be completely up-to-date or error-free. You are free to use the information at your own discretion, but please verify details independently if needed.
               </Text>
             </Stack>
 
             <Stack spacing={4}>
-              <Heading size="md">2. Job Posting Guidelines</Heading>
-              <UnorderedList spacing={2} pl={4} color={textColor}>
-                <ListItem>All job postings must be legitimate and accurate</ListItem>
-                <ListItem>Job descriptions must comply with employment laws</ListItem>
-                <ListItem>No discriminatory content or requirements</ListItem>
-                <ListItem>Clear disclosure of job requirements and responsibilities</ListItem>
-              </UnorderedList>
-            </Stack>
-
-            <Stack spacing={4}>
-              <Heading size="md">3. User Conduct</Heading>
+              <Heading size="md">No Guarantees</Heading>
               <Text color={textColor}>
-                Users must not engage in any activity that:
-              </Text>
-              <UnorderedList spacing={2} pl={4} color={textColor}>
-                <ListItem>Violates any laws or regulations</ListItem>
-                <ListItem>Infringes on intellectual property rights</ListItem>
-                <ListItem>Harasses or discriminates against others</ListItem>
-                <ListItem>Spreads false or misleading information</ListItem>
-              </UnorderedList>
-            </Stack>
-
-            <Stack spacing={4}>
-              <Heading size="md">4. Service Modifications</Heading>
-              <Text color={textColor}>
-                We reserve the right to modify or discontinue any part of our service at any time.
-                We will provide notice of significant changes when possible.
+                We do not guarantee that any job opportunities listed on our site will lead to employment. The job listings are provided for informational purposes, and we do not endorse any particular employer or job listing. Additionally, we cannot guarantee that all links will work or that the site will be available at all times.
               </Text>
             </Stack>
 
             <Stack spacing={4}>
-              <Heading size="md">5. Limitation of Liability</Heading>
+              <Heading size="md">Image Use Disclaimer</Heading>
               <Text color={textColor}>
-                Job Found is not responsible for any indirect, incidental, or consequential damages
-                arising from your use of the service or any content posted on the platform.
+                At jobfound-d2z.pages.dev, we strive to provide accurate and comprehensive information regarding job openings. To enhance our listings, we may use images of company office buildings and other related visuals sourced from online platforms, including Google Images. These images are used purely for illustrative purposes to help users identify the companies. We do not claim ownership of any images used on this site unless otherwise stated. All images belong to their respective owners. If you are the owner of an image and believe it has been used inappropriately or without proper permission, please contact us at jobfound8244@gmail.com. We will promptly remove or properly attribute the image upon request.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">User Responsibility</Heading>
+              <Text color={textColor}>
+                As a user, you are responsible for your actions while using our site. Please use common sense and caution, especially when sharing personal information or engaging with third parties. We are not responsible for any issues or disputes that may arise from interactions with employers or other users of the site.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">External Links</Heading>
+              <Text color={textColor}>
+                Our site may contain links to other websites. We provide these links for convenience and do not take responsibility for the content, accuracy, or reliability of any external websites. Visiting these external sites is at your own risk.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">Changes to the Terms</Heading>
+              <Text color={textColor}>
+                We may update these Terms of Service from time to time. If we make changes, we will update this page, and the changes will be effective immediately upon posting. It's a good idea to review these terms periodically to stay informed.
+              </Text>
+            </Stack>
+
+            <Stack spacing={4}>
+              <Heading size="md">Contact Information</Heading>
+              <Text color={textColor}>
+                If you have any questions or concerns about these Terms of Service, please feel free to contact us at jobfound8244@gmail.com. We're here to help and ensure you have a positive experience on jobfound-d2z.pages.dev.
               </Text>
             </Stack>
           </Stack>
