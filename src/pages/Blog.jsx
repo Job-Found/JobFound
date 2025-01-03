@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -18,6 +19,16 @@ import {
 import { SearchIcon } from '@chakra-ui/icons';
 import BlogCard from '../components/BlogCard';
 import { fetchBlogPosts } from '../lib/supabase';
+
+// Create a URL-safe slug
+const createUrlSlug = (title) => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-')         // Replace spaces with hyphens
+    .replace(/-+/g, '-')          // Replace multiple hyphens with single hyphen
+    .trim();                      // Remove leading/trailing spaces
+};
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -107,9 +118,15 @@ const Blog = () => {
             </Box>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {filteredPosts.map(post => (
-                <BlogCard key={post.id} post={post} />
-              ))}
+              {filteredPosts.map(post => {
+                const urlSlug = createUrlSlug(post.title);
+
+                return (
+                  <RouterLink to={`/blog/${urlSlug}`} key={post.id}>
+                    <BlogCard post={post} />
+                  </RouterLink>
+                );
+              })}
             </SimpleGrid>
           )}
 
