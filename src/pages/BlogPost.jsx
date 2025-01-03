@@ -44,20 +44,28 @@ const getCategoryIcon = (category) => {
 const BlogPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  
+  // Move all hooks to the top
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
+  // Color mode values
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const textColor = useColorModeValue('gray.600', 'gray.400');
+  const headingColor = useColorModeValue('gray.700', 'white');
+
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
-    if (!slug) {
-      setError('Invalid URL');
-      setLoading(false);
-      return;
-    }
-
     const getPost = async () => {
+      if (!slug) {
+        setError('Invalid URL');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
@@ -144,10 +152,6 @@ const BlogPost = () => {
     );
   }
 
-  const CategoryIcon = getCategoryIcon(post.category);
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-
   return (
     <MotionBox
       initial={{ opacity: 0, y: 20 }}
@@ -168,10 +172,10 @@ const BlogPost = () => {
           <Stack spacing={4}>
             <HStack>
               <Badge colorScheme="blue" display="flex" alignItems="center" px={3} py={1}>
-                <Icon as={CategoryIcon} mr={2} />
+                <Icon as={getCategoryIcon(post.category)} mr={2} />
                 {post.category}
               </Badge>
-              <HStack spacing={2} color="gray.500">
+              <HStack spacing={2} color={textColor}>
                 <Icon as={FaCalendarAlt} />
                 <Text fontSize="sm">
                   {new Date(post.created_at).toLocaleDateString('en-US', {
@@ -181,17 +185,23 @@ const BlogPost = () => {
                   })}
                 </Text>
               </HStack>
-              <HStack spacing={2} color="gray.500">
+              <HStack spacing={2} color={textColor}>
                 <TimeIcon />
                 <Text fontSize="sm">{post.read_time} min read</Text>
               </HStack>
             </HStack>
 
-            <Heading as="h1" size="2xl" bgGradient="linear(to-r, blue.400, blue.600)" bgClip="text">
+            <Heading 
+              as="h1" 
+              size="2xl" 
+              color={headingColor}
+              bgGradient="linear(to-r, blue.400, blue.600)" 
+              bgClip="text"
+            >
               {post.title}
             </Heading>
 
-            <Text fontSize="lg" fontStyle="italic" color="gray.500" borderLeft="4px" borderColor="blue.400" pl={4}>
+            <Text fontSize="lg" fontStyle="italic" color={textColor} borderLeft="4px" borderColor="blue.400" pl={4}>
               {post.excerpt}
             </Text>
           </Stack>
@@ -212,7 +222,7 @@ const BlogPost = () => {
             borderColor={borderColor}
             boxShadow="sm"
           >
-            <Text whiteSpace="pre-wrap" fontSize="lg" lineHeight="tall">
+            <Text whiteSpace="pre-wrap" fontSize="lg" lineHeight="tall" color={textColor}>
               {post.content}
             </Text>
           </Box>
