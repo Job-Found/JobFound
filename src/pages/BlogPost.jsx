@@ -41,34 +41,14 @@ const getCategoryIcon = (category) => {
   }
 };
 
-// Safely decode a URI component with fallback
-const safeDecodeURIComponent = (component) => {
-  try {
-    return decodeURIComponent(component);
-  } catch (e) {
-    console.warn('Failed to decode component:', e);
-    // Try to handle double-encoded URIs
-    try {
-      return decodeURIComponent(decodeURIComponent(component));
-    } catch (e2) {
-      console.error('Failed to decode component even with double decoding:', e2);
-      // Return the original string if all decoding attempts fail
-      return component;
-    }
-  }
-};
-
 const BlogPost = () => {
-  // Move all hooks to the top level
   const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.700', 'white');
 
   useEffect(() => {
     if (!slug) {
@@ -81,31 +61,20 @@ const BlogPost = () => {
       try {
         setLoading(true);
         setError(null);
-
-        console.log('Original slug from URL:', slug);
         
-        // First try to decode any URL encoding
-        const decodedSlug = safeDecodeURIComponent(slug);
-        console.log('Decoded slug:', decodedSlug);
+        // Convert slug back to title
+        const title = slug
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
 
-        // Clean up the slug by removing any remaining URL encoding artifacts
-        const cleanSlug = decodedSlug
-          .replace(/\+/g, ' ')  // Replace + with space
-          .replace(/%20/g, ' ') // Replace %20 with space
-          .trim();             // Remove leading/trailing whitespace
-        
-        console.log('Clean slug:', cleanSlug);
-
-        const data = await fetchBlogPost(cleanSlug);
-        console.log('Fetched post data:', data);
-
+        const data = await fetchBlogPost(title);
         if (data) {
           setPost(data);
         } else {
           setError('Post not found');
         }
       } catch (err) {
-        console.error('Error fetching blog post:', err);
         setError(err.message || 'Failed to load blog post');
       } finally {
         setLoading(false);
@@ -124,7 +93,7 @@ const BlogPost = () => {
           url: window.location.href,
         });
       } catch (err) {
-        console.error('Error sharing:', err);
+        // Ignore share errors
       }
     }
   };
@@ -176,6 +145,8 @@ const BlogPost = () => {
   }
 
   const CategoryIcon = getCategoryIcon(post.category);
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <MotionBox
